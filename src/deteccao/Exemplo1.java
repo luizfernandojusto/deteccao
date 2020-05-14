@@ -15,17 +15,17 @@ public class Exemplo1 {
 	public static void main(String[] args) {
 
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		Mat imagemColoriada = Imgcodecs.imread("src\\pessoas\\pessoas4.jpg");
+		Mat imagemColoriada = Imgcodecs.imread("src\\outros\\banana1.jpg");
 
 		Mat imagemCinza = new Mat();
 		Imgproc.cvtColor(imagemColoriada, imagemCinza, Imgproc.COLOR_BGR2GRAY);
 
-		CascadeClassifier classificador = new CascadeClassifier("src\\cascades\\haarcascade_frontalface_default.xml");
+		CascadeClassifier classificador = new CascadeClassifier("src\\cascades\\banana_classifier.xml");
 
 		MatOfRect facesDetectadas = new MatOfRect();
 		
 		classificador.detectMultiScale(imagemCinza, facesDetectadas,
-				1.19,//scale
+				1.1,//scale
 				3,//minNeighbors
 				0,//flags
 				new Size(30,30),//minSize
@@ -37,6 +37,10 @@ public class Exemplo1 {
 
 		for (Rect rect : facesDetectadas.toArray()) {
 			System.out.println(rect.x + " " + rect.y + " " + rect.width + " " + rect.height);
+			
+			if(rect.width> 50)
+				System.out.println("fora do padrao");
+			
 			Imgproc.rectangle(imagemColoriada, new Point(rect.x, rect.y),
 					new Point(rect.x + rect.width, rect.y + rect.height), new Scalar(0, 0, 255), 2);
 
